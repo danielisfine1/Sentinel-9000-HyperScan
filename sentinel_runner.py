@@ -61,6 +61,8 @@ async def run_task(playwright, task):
         await browser.close()
 
 async def main_loop():
+    sleep_interval = 5
+
     while True:
         tasks = load_tasks()
         now = time.time()
@@ -79,7 +81,11 @@ async def main_loop():
         if updated:
             save_tasks(tasks)
 
-        await asyncio.sleep(5)
+        # Countdown display
+        for i in range(sleep_interval, 0, -1):
+            print(f"⏳ Next check in {i} second(s)...", end='\r')
+            await asyncio.sleep(1)
+        print(" " * 40, end='\r')  # Clear the line
 
 if __name__ == "__main__":
     asyncio.run(main_loop())
