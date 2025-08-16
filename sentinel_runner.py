@@ -25,7 +25,7 @@ async def run_task(playwright, task):
     logs = []
     network = []
 
-    page.on("console", lambda msg: logs.append(msg.text()))
+    page.on("console", lambda msg: logs.append(msg.text))
     page.on("request", lambda req: network.append(f"REQ {req.method} {req.url}"))
     page.on("response", lambda res: network.append(f"RES {res.status} {res.url}"))
 
