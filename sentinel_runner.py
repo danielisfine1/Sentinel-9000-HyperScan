@@ -39,7 +39,7 @@ async def run_task(playwright, task):
 
         if should_report:
             status = "selector_not_found" if not selector_found else "selector_present"
-            requests.post(task['webhook'], json={
+            res = requests.post(task['webhook'], json={
                 "status": status,
                 "url": task['url'],
                 "selector": task['selector'],
@@ -47,6 +47,12 @@ async def run_task(playwright, task):
                 "logs": logs,
                 "network": network
             })
+
+            try:
+                response = res.json()
+                print(response)
+            except Exception as e:
+                print(f"Failed to parse JSON response: {e}, raw text: {res.text}")
 
     except Exception as e:
         requests.post(task['webhook'], json={
