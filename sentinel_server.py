@@ -30,6 +30,10 @@ def index():
         <input name="sleep" placeholder="Sleep (s)" required type="number">
         <input name="webhook" placeholder="Webhook URL" required>
         <input name="frequency" placeholder="Frequency (s)" required type="number">
+        <label>
+            <input type="checkbox" name="report_only_if_missing" value="1">
+            Only Report If Missing Element
+        </label>
         <button type="submit">Add Task</button>
     </form>
     <hr>
@@ -37,6 +41,11 @@ def index():
     {% for task in tasks %}
         <li>
             <code>{{ task['url'] }}</code> | {{ task['selector'] }} | {{ task['method'] }} | every {{ task['frequency'] }}s
+            {% if task.get('report_only_if_missing') %}
+                | <strong>Only If Missing</strong>
+            {% else %}
+                | <em>Always Report</em>
+            {% endif %}
             <form method="POST" action="/delete" style="display:inline;">
                 <input type="hidden" name="url" value="{{ task['url'] }}">
                 <button type="submit">Delete</button>
@@ -55,6 +64,7 @@ def add():
         "sleep": int(request.form['sleep']),
         "webhook": request.form['webhook'],
         "frequency": int(request.form['frequency']),
+        "report_only_if_missing": 'report_only_if_missing' in request.form,
         "last_checked": 0
     }
     tasks = load_tasks()
