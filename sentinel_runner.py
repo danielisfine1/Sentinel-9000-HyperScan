@@ -58,9 +58,12 @@ async def main_loop():
         now = time.time()
         updated = False
 
+        print(f"Running {len(tasks)} tasks")
+
         async with async_playwright() as p:
             for task in tasks:
                 if now - task['last_checked'] >= task['frequency']:
+                    print(f"Running task {task['url']}")
                     await run_task(p, task)
                     task['last_checked'] = now
                     updated = True
