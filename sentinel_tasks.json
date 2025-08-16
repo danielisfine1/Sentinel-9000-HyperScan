@@ -1,0 +1,11 @@
+[
+  {
+    "url": "https://comparent.com/str/fl/st-petersburg/home-team-luxury-rentals",
+    "selector": "#faqs > div",
+    "method": "headed",
+    "sleep": 10,
+    "webhook": "https://comparent.com/api/widget/html/get/sentinel-report",
+    "frequency": 300,
+    "last_checked": 1755354639.7673948
+  }
+]
